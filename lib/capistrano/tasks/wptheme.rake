@@ -6,11 +6,11 @@ namespace :load do
     # Ex: --recursive --delete --exclude .git*
     set :wpcli_rsync_options, "-avz --rsh=ssh --progress"
 
-    # Local dir where WP stores the uploads
+    # Local dir where WP stores the compiled theme's dist folder
     # IMPORTANT: Add trailing slash!
     set :wpcli_local_theme_dist_dir, "web/app/themes/sage/dist/"
 
-    # Remote dir where WP stores the uploads
+    # Remote dir where WP stores the theme's dist folder
     # IMPORTANT: Add trailing slash!
     set :wpcli_remote_theme_dist_dir, -> {"#{current_path.to_s}/web/app/themes/sage/dist/"}
 
@@ -19,7 +19,7 @@ end
 
 namespace :wpcli do
   namespace :theme do
-    namespace :rsync do
+#    namespace :rsync do
 
       desc "Push local theme dist delta to remote machine"
       task :push do
@@ -41,6 +41,6 @@ namespace :wpcli do
           end
         end
       end
-    end
+#    end
   end
 end

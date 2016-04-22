@@ -19,7 +19,7 @@ end
 
 namespace :wpcli do
   namespace :uploads do
-    namespace :rsync do
+#    namespace :rsync do
 
       desc "Push local uploads delta to remote machine"
       task :push do
@@ -41,6 +41,6 @@ namespace :wpcli do
           end
         end
       end
-    end
+#    end
   end
 end

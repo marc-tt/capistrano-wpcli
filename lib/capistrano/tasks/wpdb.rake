@@ -97,6 +97,7 @@ namespace :wpcli do
           execute :rm, fetch(:wpcli_remote_db_file), remote_tmp_file
           execute :wp, "search-replace", fetch(:wpcli_local_url), fetch(:wpcli_remote_url) || "--skip-columns=guid", "--url=" + fetch(:wpcli_local_url)
           execute :wp, "search-replace", fetch(:wpcli_local_path), fetch(:wpcli_remote_path) || "--skip-columns=guid", "--url=" + fetch(:wpcli_local_url)
+          execute :wp, :cache, :flush
         end
       end
       unless roles(:dev).empty?

@@ -4,7 +4,11 @@ namespace :load do
     # These options are passed directly to rsync
     # Append your options, overwriting the defaults may result in malfunction
     # Ex: --recursive --delete --exclude .git*
-    set :wpcli_rsync_options, "-avz --rsh=ssh --progress"
+    if RUBY_PLATFORM =~ /darwin/i
+      set :wpcli_rsync_options, "-avz --iconv=utf-8-mac,utf-8 --rsh=ssh --progress"
+    else
+      set :wpcli_rsync_options, "-avz --rsh=ssh --progress"
+    end
 
     # Local dir where WP stores the uploads
     # IMPORTANT: Add trailing slash!

@@ -1,7 +1,5 @@
 # Capistrano::WPCLI
 
-[![Dependency Status](https://www.versioneye.com/user/projects/561c9bfda193340f2f001728/badge.svg?style=flat)](https://www.versioneye.com/user/projects/561c9bfda193340f2f001728)
-
 **Note: this plugin works only with Capistrano 3.**
 
 Provides command line tools to facilitate Wordpress deploy.
@@ -10,15 +8,11 @@ Provides command line tools to facilitate Wordpress deploy.
 
 Add this line to your application's Gemfile:
 
-    gem 'capistrano-wpcli'
+    gem 'capistrano-wpcli', :git => 'https://github.com/holehan/capistrano-wpcli.git'
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install capistrano-wpcli
 
 ## Usage
 
@@ -34,7 +28,7 @@ Executes the WP-CLI command passed as parameter.
 
     cap production wpcli:run["core language install fr_FR"]
 
-- - -
+---
 
     wpcli:db:push
 
@@ -44,7 +38,7 @@ Optionally backs up the remote database before pushing (if `wpcli_backup_db` is 
 
     cap production wpcli:db:push
 
-- - -
+---
 
     wpcli:db:pull
 
@@ -52,39 +46,39 @@ Pulls the remote server WP database to local and replaces the urls.
 
     cap production wpcli:db:pull
 
-- - -
+---
 
     wpcli:db:backup:remote
 
 Pulls the remote server WP database to localhost, uses `wpcli_local_db_backup_dir` to define the location of the export.
 
-- - -
+---
 
     wpcli:db:backup:local
 
 Backs up the local WP database to localhost, uses `wpcli_local_db_backup_dir` to define the location of the export.
 
-- - -
+---
 
     wpcli:rewrite:flush
 
 Flush rewrite rules.
 
-- - -
+---
 
     wpcli:rewrite:hard_flush
 
 Perform a hard flush - updates `.htaccess` rules as well as rewrite rules in database.
 
-- - -
+---
 
-    wpcli:uploads:rsync:push
+    wpcli:uploads:push
 
 Push local uploads delta to remote machine using rsync.
 
-- - -
+---
 
-    wpcli:uploads:rsync:pull
+    wpcli:uploads:pull
 
 Pull remote uploads delta to local machine using rsync.
 
@@ -94,19 +88,19 @@ This plugin needs some configuration to work properly. You can put all your conf
 
 Here's the list of options and the defaults for each option:
 
-- - -
+---
 
     set :wpcli_remote_url
 
 Url of the WP root installation on the remote server (used by search-replace command).
 
-- - -
+---
 
     set :wpcli_local_url
 
 Url of the WP root installation on the local server (used by search-replace command).
 
-- - -
+---
 
     set :local_tmp_dir
 
@@ -114,13 +108,13 @@ Absolute path to local directory temporary directory which is read and writeable
 
 Defaults to `/tmp`
 
-- - -
+---
 
     set :wpcli_backup_db
 
 Set to true if you would like to create backups of databases on each push. Defaults to false.
 
-- - -
+---
 
     set :wpcli_local_db_backup_dir
 
@@ -130,7 +124,7 @@ Defaults to `config/backup`
 
 **IMPORTANT: Make sure to add the folder to .gitignore to prevent db backups from being in version control.**
 
-- - -
+---
 
     set :wpcli_args
 
@@ -138,7 +132,7 @@ You can pass arguments directly to WPCLI using this var.
 
 Defaults to `ENV['WPCLI_ARGS']`
 
-- - -
+---
 
     set :wpcli_local_uploads_dir
 
@@ -148,7 +142,7 @@ Defaults to `web/app/uploads/`.
 
 **IMPORTANT: Add trailing slash!**
 
-- - -
+---
 
     set :wpcli_remote_uploads_dir
 
@@ -174,8 +168,8 @@ If you are using another machine as a development server (Vagrant for example), 
 
 ## Contributing
 
-1. Fork it ( https://github.com/lavmeiker/capistrano-wpcli/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+1.  Fork it ( https://github.com/lavmeiker/capistrano-wpcli/fork )
+2.  Create your feature branch (`git checkout -b my-new-feature`)
+3.  Commit your changes (`git commit -am 'Add some feature'`)
+4.  Push to the branch (`git push origin my-new-feature`)
+5.  Create a new Pull Request

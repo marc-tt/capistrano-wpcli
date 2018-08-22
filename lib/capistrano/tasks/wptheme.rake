@@ -1,4 +1,5 @@
 namespace :load do
+
   task :defaults do
 
     # These options are passed directly to rsync
@@ -15,6 +16,7 @@ namespace :load do
     set :wpcli_remote_theme_dist_dir, -> {"#{current_path.to_s}/web/app/themes/sage/dist/"}
 
   end
+
 end
 
 namespace :wpcli do

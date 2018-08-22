@@ -58,7 +58,6 @@ namespace :wpcli do
             execute :gunzip, "-c", fetch(:wpcli_local_db_file), ">", local_tmp_file
             execute :wp, :db, :import, local_tmp_file
             execute :rm, fetch(:wpcli_local_db_file), local_tmp_file
-            execute :wp, "search-replace", fetch(:wpcli_remote_path), fetch(:wpcli_local_path) || "--skip-columns=guid", "--url=" + fetch(:wpcli_remote_url)
             execute :wp, "search-replace", fetch(:wpcli_remote_url), fetch(:wpcli_local_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}"
           end
         end
@@ -71,7 +70,6 @@ namespace :wpcli do
           execute :gunzip, "-c", fetch(:wpcli_local_db_file), ">", local_tmp_file
           execute :wp, :db, :import, local_tmp_file
           execute :rm, fetch(:wpcli_local_db_file), local_tmp_file
-          execute :wp, "search-replace", fetch(:wpcli_remote_path), fetch(:wpcli_local_path) || "--skip-columns=guid", "--url=" + fetch(:wpcli_remote_url)
           execute :wp, "search-replace", fetch(:wpcli_remote_url), fetch(:wpcli_local_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}"
         end
       end
@@ -98,7 +96,6 @@ namespace :wpcli do
           execute :gunzip, "-c", fetch(:wpcli_remote_db_file), ">", remote_tmp_file
           execute :wp, :db, :import, remote_tmp_file
           execute :rm, fetch(:wpcli_remote_db_file), remote_tmp_file
-          execute :wp, "search-replace", fetch(:wpcli_local_path), fetch(:wpcli_remote_path) || "--skip-columns=guid", "--url=" + fetch(:wpcli_local_url)
           execute :wp, "search-replace", fetch(:wpcli_local_url), fetch(:wpcli_remote_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_local_url)}"
           execute :wp, :cache, :flush
         end

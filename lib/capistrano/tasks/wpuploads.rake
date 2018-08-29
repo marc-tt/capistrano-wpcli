@@ -28,11 +28,8 @@ namespace :wpcli do
       desc "Push local uploads delta to remote machine"
       task :push do
         roles(:web).each do |role|
-          puts role.netssh_options[:port]
-          port = role.netssh_options[:port] || 22
-          set :wpcli_rsync_options, fetch(:wpcli_rsync_options) + (" -e 'ssh -p #{port}'")
           run_locally do
-            execute :rsync, fetch(:wpcli_rsync_options), fetch(:wpcli_local_uploads_dir), "#{role.user}@#{role.hostname}:#{fetch(:wpcli_remote_uploads_dir)}"
+            execute :rsync, fetch(:wpcli_rsync_options), ssh_options(role), "#{role.user}@#{role.hostname}:#{fetch(:wpcli_remote_uploads_dir)}"
           end
         end
       end
@@ -40,8 +37,11 @@ namespace :wpcli do
       desc "Pull remote uploads delta to local machine"
       task :pull do
         roles(:web).each do |role|
+          puts role.netssh_options[:port]
+          port = role.netssh_options[:port] || 22
+          set :wpcli_rsync_options, fetch(:wpcli_rsync_options) + (" -e 'ssh -p #{port}'")
           run_locally do
-            execute :rsync, fetch(:wpcli_rsync_options), "#{role.user}@#{role.hostname}:#{fetch(:wpcli_remote_uploads_dir)}", fetch(:wpcli_local_uploads_dir)
+            execute :rsync, fetch(:wpcli_rsync_options), ssh_options(role), "#{role.user}@#{role.hostname}:#{fetch(:wpcli_remote_uploads_dir)}", fetch(:wpcli_local_uploads_dir)
           end
         end
       end

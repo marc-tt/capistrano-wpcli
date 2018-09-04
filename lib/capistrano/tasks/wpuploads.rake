@@ -29,7 +29,7 @@ namespace :wpcli do
       task :push do
         roles(:web).each do |role|
           run_locally do
-            execute :rsync, fetch(:wpcli_rsync_options), ssh_options(role), "#{role.user}@#{role.hostname}:#{fetch(:wpcli_remote_uploads_dir)}"
+            execute :rsync, fetch(:wpcli_rsync_options), ssh_options(role), fetch(:wpcli_local_uploads_dir), "#{role.user}@#{role.hostname}:#{fetch(:wpcli_remote_uploads_dir)}"
           end
         end
       end

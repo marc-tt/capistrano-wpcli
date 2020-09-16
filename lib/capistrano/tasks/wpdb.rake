@@ -35,6 +35,9 @@ namespace :load do
     # WP remote install directory
     set :wpcli_wp_remote_dir, nil
 
+    # The multsite URL mappings
+    set :wpcli_multisite_url_mappings, nil
+
   end
 
 end
@@ -61,7 +64,13 @@ namespace :wpcli do
             execute :gunzip, "-c", fetch(:wpcli_local_db_file), ">", local_tmp_file
             execute :wp, :db, :import, local_tmp_file, local_path_arg
             execute :rm, fetch(:wpcli_local_db_file), local_tmp_file
-            execute :wp, "search-replace", fetch(:wpcli_remote_url), fetch(:wpcli_local_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}", local_path_arg
+            if fetch(:wpcli_multisite_url_mappings)
+              fetch(:wpcli_multisite_url_mappings).each do |mapping|
+                execute :wp, "search-replace", mapping[:remote_url], mapping[:local_url], "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}", "--all-tables", local_path_arg
+              end
+            else
+              execute :wp, "search-replace", fetch(:wpcli_remote_url), fetch(:wpcli_local_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}", local_path_arg
+            end
           end
         end
         run_locally do
@@ -73,7 +82,13 @@ namespace :wpcli do
           execute :gunzip, "-c", fetch(:wpcli_local_db_file), ">", local_tmp_file
           execute :wp, :db, :import, local_tmp_file, local_path_arg
           execute :rm, fetch(:wpcli_local_db_file), local_tmp_file
-          execute :wp, "search-replace", fetch(:wpcli_remote_url), fetch(:wpcli_local_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}", local_path_arg
+          if fetch(:wpcli_multisite_url_mappings)
+            fetch(:wpcli_multisite_url_mappings).each do |mapping|
+              execute :wp, "search-replace", mapping[:remote_url], mapping[:local_url], "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}", "--all-tables", local_path_arg
+            end
+          else
+            execute :wp, "search-replace", fetch(:wpcli_remote_url), fetch(:wpcli_local_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_remote_url)}", local_path_arg
+          end
         end
       end
     end
@@ -99,7 +114,13 @@ namespace :wpcli do
           execute :gunzip, "-c", fetch(:wpcli_remote_db_file), ">", remote_tmp_file
           execute :wp, :db, :import, remote_tmp_file, remote_path_arg
           execute :rm, fetch(:wpcli_remote_db_file), remote_tmp_file
-          execute :wp, "search-replace", fetch(:wpcli_local_url), fetch(:wpcli_remote_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_local_url)}", remote_path_arg
+          if fetch(:wpcli_multisite_url_mappings)
+            fetch(:wpcli_multisite_url_mappings).each do |mapping|
+              execute :wp, "search-replace", mapping[:local_url], mapping[:remote_url], "--skip-columns=guid", "--url=#{fetch(:wpcli_local_url)}", "--all-tables", remote_path_arg
+            end
+          else
+            execute :wp, "search-replace", fetch(:wpcli_local_url), fetch(:wpcli_remote_url), "--skip-columns=guid", "--url=#{fetch(:wpcli_local_url)}", remote_path_arg
+          end
           execute :wp, :cache, :flush, remote_path_arg
         end
       end
